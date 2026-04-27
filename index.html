@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>3D Scaling UI</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+}
+
+/* Glass Card */
+.panel {
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 30px;
+  width: 350px;
+  box-shadow: 0 0 30px rgba(0,255,255,0.2);
+  text-align: center;
+}
+
+/* 3D Scene */
+.scene {
+  perspective: 800px;
+  margin-bottom: 30px;
+}
+
+.box {
+  width: 120px;
+  height: 120px;
+  margin: auto;
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+  transition: transform 0.2s ease;
+}
+
+/* Sliders */
+.control {
+  margin: 10px 0;
+}
+
+label {
+  font-size: 14px;
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+.value {
+  font-size: 12px;
+  color: #94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+  <h2>3D Scaling Demo 🚀</h2>
+
+  <div class="scene">
+    <div class="box" id="box"></div>
+  </div>
+
+  <div class="control">
+    <label>X Scale</label>
+    <input type="range" id="sx" min="0.5" max="2" step="0.1" value="1">
+    <div class="value" id="vx">1</div>
+  </div>
+
+  <div class="control">
+    <label>Y Scale</label>
+    <input type="range" id="sy" min="0.5" max="2" step="0.1" value="1">
+    <div class="value" id="vy">1</div>
+  </div>
+
+  <div class="control">
+    <label>Z Scale</label>
+    <input type="range" id="sz" min="0.5" max="2" step="0.1" value="1">
+    <div class="value" id="vz">1</div>
+  </div>
+</div>
+
+<script>
+const box = document.getElementById("box");
+
+function update() {
+  let x = sx.value;
+  let y = sy.value;
+  let z = sz.value;
+
+  box.style.transform = `scale3d(${x}, ${y}, ${z})`;
+
+  vx.innerText = x;
+  vy.innerText = y;
+  vz.innerText = z;
+}
+
+sx.oninput = sy.oninput = sz.oninput = update;
+update();
+</script>
+
+</body>
+</html>
