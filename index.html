@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>3D Scaling UI</title>
+<title>3D Scaling Cube</title>
 
 <style>
 body {
@@ -12,44 +12,56 @@ body {
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #0f172a, #1e293b);
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial;
   color: white;
 }
 
-/* Glass Card */
+/* Glass Panel */
 .panel {
   backdrop-filter: blur(15px);
   background: rgba(255,255,255,0.05);
   border-radius: 20px;
   padding: 30px;
   width: 350px;
-  box-shadow: 0 0 30px rgba(0,255,255,0.2);
   text-align: center;
 }
 
-/* 3D Scene */
+/* Scene */
 .scene {
   perspective: 800px;
   margin-bottom: 30px;
 }
 
-.box {
+/* Cube */
+.cube {
   width: 120px;
   height: 120px;
   margin: auto;
-  background: linear-gradient(135deg, #22c55e, #06b6d4);
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0,255,255,0.5);
-  transition: transform 0.2s ease;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
 }
 
-/* Sliders */
+/* Faces */
+.face {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: rgba(34,197,94,0.7);
+  border: 2px solid white;
+}
+
+/* Position faces */
+.front  { transform: rotateY(0deg) translateZ(60px); }
+.back   { transform: rotateY(180deg) translateZ(60px); }
+.right  { transform: rotateY(90deg) translateZ(60px); }
+.left   { transform: rotateY(-90deg) translateZ(60px); }
+.top    { transform: rotateX(90deg) translateZ(60px); }
+.bottom { transform: rotateX(-90deg) translateZ(60px); }
+
+/* Controls */
 .control {
   margin: 10px 0;
-}
-
-label {
-  font-size: 14px;
 }
 
 input[type=range] {
@@ -61,51 +73,77 @@ input[type=range] {
   color: #94a3b8;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="panel">
-  <h2>3D Scaling Demo 🚀</h2>
+  <h2>3D Scaling Cube 🚀</h2>
 
   <div class="scene">
-    <div class="box" id="box"></div>
+    <div class="cube" id="cube">
+      <div class="face front"></div>
+      <div class="face back"></div>
+      <div class="face right"></div>
+      <div class="face left"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+    </div>
   </div>
 
   <div class="control">
-    <label>X Scale</label>
+    X Scale
     <input type="range" id="sx" min="0.5" max="2" step="0.1" value="1">
     <div class="value" id="vx">1</div>
   </div>
 
   <div class="control">
-    <label>Y Scale</label>
+    Y Scale
     <input type="range" id="sy" min="0.5" max="2" step="0.1" value="1">
     <div class="value" id="vy">1</div>
   </div>
 
   <div class="control">
-    <label>Z Scale</label>
+    Z Scale
     <input type="range" id="sz" min="0.5" max="2" step="0.1" value="1">
     <div class="value" id="vz">1</div>
   </div>
 </div>
 
 <script>
-const box = document.getElementById("box");
+const cube = document.getElementById("cube");
+
+const sx = document.getElementById("sx");
+const sy = document.getElementById("sy");
+const sz = document.getElementById("sz");
+
+const vx = document.getElementById("vx");
+const vy = document.getElementById("vy");
+const vz = document.getElementById("vz");
 
 function update() {
   let x = sx.value;
   let y = sy.value;
   let z = sz.value;
 
-  box.style.transform = `scale3d(${x}, ${y}, ${z})`;
+  cube.style.transform =
+    `scale3d(${x}, ${y}, ${z}) rotateX(30deg) rotateY(30deg)`;
 
   vx.innerText = x;
   vy.innerText = y;
   vz.innerText = z;
 }
 
+sx.addEventListener("input", update);
+sy.addEventListener("input", update);
+sz.addEventListener("input", update);
+
+update();
+</script>
+
+</body>
+</html>
 sx.oninput = sy.oninput = sz.oninput = update;
 update();
 </script>
